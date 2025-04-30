@@ -8,7 +8,7 @@ metadata:
     tier: db
     project: expense
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: mysql
@@ -23,8 +23,18 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: ramgoud081/mysql:v1
-
+        image: joindevops/mysql:v1
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 15
+          periodSeconds: 10
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -39,4 +49,4 @@ spec:
   - name: mysql-port
     protocol: TCP
     port: 3306 # service port
-    targetPort: 3306 # container port       
+    targetPort: 3306 # container port
