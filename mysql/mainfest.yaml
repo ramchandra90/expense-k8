@@ -2,13 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: expense
   labels:
     app: mysql
     tier: db
     project: expense
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
